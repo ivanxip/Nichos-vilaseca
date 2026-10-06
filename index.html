@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nínxols Vila-seca</title><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Nínxols"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/icon-180.png"><link rel="icon" href="icons/icon-192.png"><meta name="theme-color" content="#0f1115">
+<style>
+:root{--bg:#0f1115;--card:#1a1d24;--tx:#e8eaf0;--mu:#8b92a3;--ac:#4f8cff;--ln:#2b303b;--ok:#16a34a;--x:#ef4444;--ye:#facc15;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f4f5f8;--card:#fff;--tx:#14171f;--mu:#667085;--ln:#d8dce5}}
+:root[data-theme="dark"]{--bg:#0f1115}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:15px system-ui,sans-serif}
+header{padding:14px 14px 6px}h1{font-size:18px;margin:0}small,.mu{color:var(--mu)}
+nav{display:flex;gap:6px;padding:8px 14px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5;overflow-x:auto}
+nav button{flex:1;white-space:nowrap;padding:9px 10px;border-radius:10px;border:1px solid var(--ln);background:var(--card);color:var(--tx);font-size:14px}
+nav button.on{background:var(--ac);border-color:var(--ac);color:#fff}
+main{padding:6px 14px 40px}.card{background:var(--card);border:1px solid var(--ln);border-radius:14px;padding:12px;margin:10px 0}
+.top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:8px}
+.scroll{overflow-x:auto;padding-bottom:6px}.grid{display:grid;gap:4px;width:max-content}
+.c{width:46px;height:42px;border:1px solid var(--ln);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;font-variant-numeric:tabular-nums;position:relative;cursor:pointer;user-select:none;background:var(--bg)}
+.c.x{color:var(--mu);background:linear-gradient(to top right,transparent calc(50% - 1.5px),var(--x) 50%,transparent calc(50% + 1.5px)),linear-gradient(to bottom right,transparent calc(50% - 1.5px),var(--x) 50%,transparent calc(50% + 1.5px)),var(--bg)}
+.c.v{background:var(--ye);color:#222;font-weight:600}.c.v i{position:absolute;bottom:1px;font:8px/1 system-ui;font-style:normal}
+.c.hit{outline:2px solid var(--ac)}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 0;border-bottom:1px solid var(--ln)}.row:last-child{border:0}
+button.b,label.b{padding:8px 12px;border-radius:9px;border:1px solid var(--ln);background:var(--bg);color:var(--tx);font-size:14px;cursor:pointer;display:inline-block}
+.b.r{color:var(--x);border-color:var(--x)}.b.p{background:var(--ac);border-color:var(--ac);color:#fff}
+input,select{background:var(--bg);color:var(--tx);border:1px solid var(--ln);border-radius:9px;padding:9px;font-size:15px;width:100%;margin:4px 0}
+.f{display:flex;gap:8px}.f>*{flex:1}.leg{display:flex;gap:12px;font-size:12px;color:var(--mu);margin:4px 0 8px}
+</style></head><body>
+<header style="display:flex;gap:12px;align-items:center"><img src="icons/logo-96.png" alt="Ajuntament de Vila-seca" width="52" height="52" style="border-radius:10px;background:#fff"><div><h1>Cementiri de Vila-seca</h1><small>Toca para tachar. Datos guardados en este dispositivo.</small></div></header>
+<nav id="nav"></nav><main id="app"></main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+const asc=(s,n=7,st=1)=>Array.from({length:n},(_,i)=>s+st*i);
+const desc=(l,n=14)=>asc(l,n,4).reverse();
+const mk=(id,type,name,rows,x,v)=>{const m={};[...(x||[]),...(v||[])].forEach(n=>m[n]='x');return{id,type,name,rows,m}};
+const range=(a,b,s=1)=>{const r=[];for(let i=a;i<=b;i+=s)r.push(i);return r};
+const DEF=()=>({
+blocks:[
+mk('fn','nuevo','Bloc F (nord)',[596,595,594,593].map(l=>desc(l)),
+ [625,629,633,637,641,645,606,610,614,618,622,607,611,615,619,623,604,608,612,616,620,624],
+ [593,597,601,605,609,613,617,621,594,598,602,595,599,603,596,600]),
+mk('fs','nuevo','Bloc F (sud)',[652,651,650,649].map(l=>asc(l,14,4)),range(649,693,4)),
+mk('bn','col','Mòdul B (nord)',[asc(57),asc(50),asc(43)],[51,52,53,54,55,43,44,45,46,47],[...range(57,63),50,56,48,49]),
+mk('bs','col','Mòdul B (sud)',[asc(78),asc(71),asc(64)],[79,80,72,73,74,75,76,64,66,69],[78,81,82,83,84,71,77,70])],
+sh:[['Y',1,'-'],[30,1,'-'],[93,2,2],[98,2,3],[110,2,3],[297,1,'-'],[316,2,3],[448,2,2],[474,2,2],[530,2,3],[575,2,3],[1019,2,3],[1066,2,2],[1076,2,3],[1079,2,3],[1082,2,3],[1114,2,2],[1286,2,3],[1292,2,3],[1304,2,3],[1462,2,2],[1382,2,3]].map(([n,c,f])=>({n:String(n),c:String(c),f:String(f)})),
+rem:[],docs:[]});
+let S;try{S=JSON.parse(localStorage.getItem('nichos-v1'))}catch(e){}if(!S)S=DEF();S.blocks=S.blocks.filter(b=>b.id!=='an'&&b.id!=='as');S.blocks.forEach(b=>{for(const k in b.m)b.m[k]='x'});
+const save=()=>{try{localStorage.setItem('nichos-v1',JSON.stringify(S))}catch(e){}};
+let tab='nuevo',q='';
+const pad=(b,n)=>b.type==='col'?String(n).padStart(3,'0'):n;
+const $=s=>document.querySelector(s);
+const TABS=[['nuevo','Nichos nuevos'],['col','Columbarios'],['sh','2ª mano'],['doc','Subir']];
+function nav(){$('#nav').innerHTML=TABS.map(([k,t])=>`<button class="${tab===k?'on':''}" onclick="tab='${k}';q='';draw()">${t}</button>`).join('')}
+function blocks(t){
+ const bs=S.blocks.filter(b=>b.type===t);
+ return `<div class="leg"><span>⬜ Disponible</span><span>❌ Vendido</span></div>`+
+ (bs.length?'':'<p class="mu">No hay bloques. Sube uno en la pestaña “Subir”.</p>')+bs.map(b=>{
+  const all=b.rows.flat(),nx=all.filter(n=>b.m[n]).length;
+  return `<div class="card"><div class="top"><b>${b.name}</b><small>${all.length-nx} libres · ${nx} tachados</small></div>
+  <div class="scroll"><div class="grid" style="grid-template-columns:repeat(${b.rows[0].length},46px)">`+
+  b.rows.map(r=>r.map(n=>`<div class="c ${b.m[n]||''}" onclick="tg('${b.id}',${n})">${pad(b,n)}</div>`).join('')).join('')+
+  `</div></div>${b.custom?`<button class="b r" onclick="delBlock('${b.id}')">Eliminar bloque</button>`:''}</div>`}).join('')}
+function tg(id,n){const b=S.blocks.find(x=>x.id===id);if(b.m[n])delete b.m[n];else b.m[n]='x';save();draw(true)}
+function delBlock(id){if(confirm('¿Eliminar este bloque?')){S.blocks=S.blocks.filter(b=>b.id!==id);save();draw()}}
+function sh(){
+ const l=S.sh.filter(r=>!q||r.n.includes(q));
+ return `<input placeholder="Buscar número…" value="${q}" oninput="q=this.value;draw(true,1)" id="q">
+ <div class="card"><div class="top"><b>Disponibles de 2ª mano</b><small>${S.sh.length}</small></div>`+
+ (l.map(r=>`<div class="row"><div><b>${r.n}</b> <small>Classe ${r.c} · Fila ${r.f}</small></div><button class="b r" onclick="rm('${r.n}')">Quitar</button></div>`).join('')||'<p class="mu">Sin resultados</p>')+`</div>
+ <div class="card"><b>Añadir manualmente</b><div class="f"><input id="an" placeholder="Nº"><input id="ac" placeholder="Classe"><input id="af" placeholder="Fila"></div><button class="b p" onclick="addSh()">Añadir</button></div>`+
+ (S.rem.length?`<div class="card"><b>Quitados</b>`+S.rem.map(r=>`<div class="row"><span>${r.n} <small>Classe ${r.c} · Fila ${r.f}</small></span><button class="b" onclick="rs('${r.n}')">Restaurar</button></div>`).join('')+`</div>`:'')}
+function rm(n){const i=S.sh.findIndex(r=>r.n===n);if(i<0||!confirm('¿Quitar el nicho '+n+' de la lista?'))return;S.rem.push(...S.sh.splice(i,1));save();draw(true,1)}
+function rs(n){const i=S.rem.findIndex(r=>r.n===n);S.sh.push(...S.rem.splice(i,1));save();draw(true)}
+function addSh(){const n=$('#an').value.trim();if(!n)return;S.sh.push({n,c:$('#ac').value.trim()||'-',f:$('#af').value.trim()||'-'});save();draw(true)}
+function docs(){return `<div class="card"><b>Añadir nuevo bloque</b>
+ <select id="gt"><option value="nuevo">Nichos nuevos (como Bloc F)</option><option value="col">Columbarios (como Mòdul B)</option></select>
+ <input id="gn" placeholder="Nombre (ej. Bloc G nord)">
+ <div class="f"><input id="g1" type="number" inputmode="numeric" placeholder="Primer nº"><input id="g2" type="number" inputmode="numeric" placeholder="Último nº"></div>
+ <button class="b p" onclick="gen()">Generar</button></div>
+ <div class="card"><b>Subir documento</b>
+ <select id="cat"><option value="sh">Lista de 2ª mano (CSV/TXT/Excel)</option><option value="doc">Otro documento (PDF/imagen)</option></select>
+ <label class="b p" style="margin-top:6px">Elegir archivo<input type="file" id="fi" accept=".csv,.txt,.xlsx,.xls,.pdf,image/*" hidden onchange="imp(this.files[0])"></label>
+ <p class="mu" style="font-size:13px">En 2ª mano se leen número, classe y fila. Los PDF e imágenes se guardan para consultarlos.</p></div>
+ <div class="card"><b>Documentos guardados</b>`+(S.docs.map(d=>`<div class="row"><span>${d.name}<br><small>${d.cat}</small></span><span><button class="b" onclick="openDoc('${d.id}')">Abrir</button> <button class="b r" onclick="delDoc('${d.id}')">✕</button></span></div>`).join('')||'<p class="mu">Ninguno</p>')+`</div>
+ <button class="b r" onclick="if(confirm('¿Restablecer todo a los documentos originales?')){S=DEF();save();draw()}">Restablecer datos originales</button>`}
+const idb=()=>new Promise((ok,ko)=>{const r=indexedDB.open('nichos-docs',1);r.onupgradeneeded=()=>r.result.createObjectStore('f');r.onsuccess=()=>ok(r.result);r.onerror=ko});
+const idbOp=async(m,...a)=>{const d=await idb();return new Promise((ok,ko)=>{const r=d.transaction('f',m==='get'?'readonly':'readwrite').objectStore('f')[m](...a);r.onsuccess=()=>ok(r.result);r.onerror=ko})};
+function gen(){const t=$('#gt').value,f=+$('#g1').value,l=+$('#g2').value,nm=$('#gn').value.trim()||(t==='col'?'Mòdul nuevo':'Bloc nuevo');
+ if(!f||!l||l<f)return alert('Revisa el primer y último número.');let rows=[];
+ if(t==='nuevo'){for(let i=0;i<4;i++){const r=[];for(let n=f+3-i;n<=l;n+=4)r.push(n);if(r.length)rows.push(r.reverse())}}
+ else{for(let e=l;e>=f;e-=7)rows.push(range(Math.max(f,e-6),e))}
+ S.blocks.push({id:'b'+Date.now(),type:t,name:nm,rows,m:{},custom:1});save();tab=t;draw()}
+async function imp(f){if(!f)return;const cat=$('#cat').value,id='d'+Date.now(),ext=f.name.split('.').pop().toLowerCase();let text=null;
+ try{if(['csv','txt'].includes(ext))text=await f.text();else if(['xlsx','xls'].includes(ext)){const w=XLSX.read(await f.arrayBuffer());text=XLSX.utils.sheet_to_csv(w.Sheets[w.SheetNames[0]])}}catch(e){}
+ try{await idbOp('put',f,id);S.docs.push({id,name:f.name,cat:cat==='sh'?'2ª mano':'Documento'})}catch(e){}
+ let msg='Documento guardado.';
+ if(cat==='sh'&&text){const rows=text.split(/\r?\n/).map(l=>l.split(/[,;\t]/).map(s=>s.trim())).filter(r=>/^\d+$/.test(r[0]));
+  rows.forEach(r=>{if(!S.sh.some(x=>x.n===r[0]))S.sh.push({n:r[0],c:r[1]||'-',f:r[2]||'-'})});msg=rows.length+' nichos de 2ª mano leídos.'}
+ save();alert(msg);tab=cat==='sh'?'sh':'doc';draw()}
+async function openDoc(id){const f=await idbOp('get',id);if(f)window.open(URL.createObjectURL(f),'_blank')}
+async function delDoc(id){try{await idbOp('delete',id)}catch(e){}S.docs=S.docs.filter(d=>d.id!==id);save();draw(true)}
+function draw(keep,focus){const y=scrollY;nav();$('#app').innerHTML=tab==='sh'?sh():tab==='doc'?docs():blocks(tab);if(keep)scrollTo(0,y);if(focus){const e=$('#q');e.focus();e.setSelectionRange(q.length,q.length)}}
+draw();
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script></body></html>
